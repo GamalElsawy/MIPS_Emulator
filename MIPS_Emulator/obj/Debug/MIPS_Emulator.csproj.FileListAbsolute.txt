@@ -1,0 +1,18 @@
+c:\users\gamal elsawy\documents\visual studio 2015\Projects\MIPS_Emulator\MIPS_Emulator\bin\Debug\MIPS_Emulator.exe.config
+c:\users\gamal elsawy\documents\visual studio 2015\Projects\MIPS_Emulator\MIPS_Emulator\bin\Debug\MIPS_Emulator.exe
+c:\users\gamal elsawy\documents\visual studio 2015\Projects\MIPS_Emulator\MIPS_Emulator\bin\Debug\MIPS_Emulator.pdb
+c:\users\gamal elsawy\documents\visual studio 2015\Projects\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.csprojResolveAssemblyReference.cache
+c:\users\gamal elsawy\documents\visual studio 2015\Projects\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.Properties.Resources.resources
+c:\users\gamal elsawy\documents\visual studio 2015\Projects\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.csproj.GenerateResource.Cache
+c:\users\gamal elsawy\documents\visual studio 2015\Projects\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.exe
+c:\users\gamal elsawy\documents\visual studio 2015\Projects\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.pdb
+C:\Users\Gamal Elsawy\Documents\Visual Studio 2015\Projects\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.Form1.resources
+C:\Users\Gamal Elsawy\Desktop\MIPS_Emulator\MIPS_Emulator\bin\Debug\MIPS_Emulator.exe.config
+C:\Users\Gamal Elsawy\Desktop\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.exe
+C:\Users\Gamal Elsawy\Desktop\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.pdb
+C:\Users\Gamal Elsawy\Desktop\MIPS_Emulator\MIPS_Emulator\bin\Debug\MIPS_Emulator.exe
+C:\Users\Gamal Elsawy\Desktop\MIPS_Emulator\MIPS_Emulator\bin\Debug\MIPS_Emulator.pdb
+C:\Users\Gamal Elsawy\Desktop\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.csprojResolveAssemblyReference.cache
+C:\Users\Gamal Elsawy\Desktop\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.Form1.resources
+C:\Users\Gamal Elsawy\Desktop\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.Properties.Resources.resources
+C:\Users\Gamal Elsawy\Desktop\MIPS_Emulator\MIPS_Emulator\obj\Debug\MIPS_Emulator.csproj.GenerateResource.Cache
