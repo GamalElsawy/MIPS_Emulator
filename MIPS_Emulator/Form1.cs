@@ -14,15 +14,15 @@ namespace MIPS_Emulator
     public partial class Form1 : Form
     {
         MIPS mipsObject;
-        static int i = 0, j = 0,columnToDisplay = 0, gabCycles = 4,desiredJumpPC = -1,desiredlevel = -1;
+        static int xDim = 0, yDim = 0,columnToDisplay = 0, gabCycles = 4,desiredJumpPC = -1,desiredLevel = -1;
         public class MIPS
         {
 
             int[] mipsReg;
             string[,] mipsTable;
-            int A_Excute, B_Excute, Imm_Excute, A_Out_Mem, B_Mem, A_Out_WB,
-                PC, PC_Fetch, PC_Decode, PC_Mem, PC_Excute;
-            string IR_Decode, Data_Mem_read;
+            int AExcute, BExcute, ImmExcute, AOutMem, BMem, AOutWB,
+                PC, PcFetch, PcDecode, PcMem, PcExcute;
+            string IrDecode, DataMemRead;
            
             Dictionary<int,string> instructionSet;
             public MIPS()
@@ -37,16 +37,15 @@ namespace MIPS_Emulator
                 for (int i = 1; i < 32; i++)
                     mipsReg[i] = i + 100;
 
-                IR_Decode = Data_Mem_read = "";
-                A_Excute = B_Excute = Imm_Excute = A_Out_Mem = B_Mem = A_Out_WB  = 0 ;
-                PC_Fetch = PC_Decode = PC_Excute = PC_Mem = 0;
+                IrDecode = DataMemRead = "";
+                AExcute = BExcute = ImmExcute = AOutMem = BMem = AOutWB  = 0 ;
+                PcFetch = PcDecode = PcExcute = PcMem = 0;
                
 
             }
-            public void Update(DataGridView mipsRegGrid, TextBox pcTextBox)
+            public void update(DataGridView mipsRegGrid, TextBox pcTextBox)
             {
                 mipsRegGrid.Rows.Clear();
-                //pipRegGrid.Rows.Clear();
 
                 pcTextBox.Text = PC.ToString(); 
                 for (int i = 0; i < 32; i++)
@@ -58,55 +57,55 @@ namespace MIPS_Emulator
             
             }
 
-            string s1, s2;
+            string rs, rt;
             public void fetch()
             {
-                PC_Decode = PC + 4;
-                IR_Decode = instructionSet[PC];
-                s1 = peaceOfString(IR_Decode, 7, 10);
-                s2 = peaceOfString(IR_Decode, 11, 15);
-                mipsTable[i, j] = PC.ToString(); //0
-                mipsTable[++i, j] = PC_Decode.ToString(); //1
-                mipsTable[++i, j] = IR_Decode; //2
-                i++; j++;
+                PcDecode = PC + 4;
+                IrDecode = instructionSet[PC];
+                rs = peaceOfString(IrDecode, 7, 10);
+                rt = peaceOfString(IrDecode, 11, 15);
+                mipsTable[xDim, yDim] = PC.ToString(); //0
+                mipsTable[++xDim, yDim] = PcDecode.ToString(); //1
+                mipsTable[++xDim, yDim] = IrDecode; //2
+                xDim++; yDim++;
             }
             public void decode()
             {
 
-                PC_Excute = PC_Decode;
-                int[] outOfRegFile = registerFile(binaryToDecimal(s1), binaryToDecimal(s2));
-                A_Excute = outOfRegFile[0];
-                B_Excute = outOfRegFile[1];
-                Imm_Excute = binaryToDecimal(peaceOfString(IR_Decode, 16, 31));
-                mipsTable[i, j] = PC_Excute.ToString(); //3
-                mipsTable[++i, j] = A_Excute.ToString(); //4
-                mipsTable[++i, j] = B_Excute.ToString(); //5
-                mipsTable[++i, j] = Imm_Excute.ToString(); //6
-                i++; j++;
+                PcExcute = PcDecode;
+                int[] outOfRegFile = registerFile(binaryToDecimal(rs), binaryToDecimal(rt));
+                AExcute = outOfRegFile[0];
+                BExcute = outOfRegFile[1];
+                ImmExcute = binaryToDecimal(peaceOfString(IrDecode, 16, 31));
+                mipsTable[xDim, yDim] = PcExcute.ToString(); //3
+                mipsTable[++xDim, yDim] = AExcute.ToString(); //4
+                mipsTable[++xDim, yDim] = BExcute.ToString(); //5
+                mipsTable[++xDim, yDim] = ImmExcute.ToString(); //6
+                xDim++; yDim++;
             }
 
             public void excute()
             {
-                B_Mem = B_Excute;
-                A_Out_Mem = ALU(A_Excute, B_Excute, binaryToDecimal(peaceOfString(IR_Decode, 26, 31)));
-                mipsReg[binaryToDecimal(peaceOfString(IR_Decode, 16, 20))] = A_Out_Mem;
-                PC_Mem = additionSubAdder(Imm_Excute * 4, PC_Excute, 0);
-                mipsTable[i, j] = PC_Mem.ToString(); //7
-                mipsTable[++i, j] = A_Out_Mem.ToString(); //8
-                mipsTable[++i, j] = B_Mem.ToString(); //9
-                i++; j++;
+                BMem = BExcute;
+                AOutMem = ALU(AExcute, BExcute, binaryToDecimal(peaceOfString(IrDecode, 26, 31)));
+                mipsReg[binaryToDecimal(peaceOfString(IrDecode, 16, 20))] = AOutMem;
+                PcMem = additionSubAdder(ImmExcute * 4, PcExcute, 0);
+                mipsTable[xDim, yDim] = PcMem.ToString(); //7
+                mipsTable[++xDim, yDim] = AOutMem.ToString(); //8
+                mipsTable[++xDim, yDim] = BMem.ToString(); //9
+                xDim++; yDim++;
             }
 
             public void memory()
             {
-                A_Out_WB = A_Out_Mem;
-                Data_Mem_read = "??";
-                mipsTable[i, j] = A_Out_WB.ToString(); //10
-                mipsTable[++i, j] = Data_Mem_read;  //11
-                i = 0; j -= 2;
+                AOutWB = AOutMem;
+                DataMemRead = "??";
+                mipsTable[xDim, yDim] = AOutWB.ToString(); //10
+                mipsTable[++xDim, yDim] = DataMemRead;  //11
+                xDim= 0; yDim -= 2;
             }
 
-            public void getInstructionSet(RichTextBox userCodeData)
+            public void fillInstructionSet(RichTextBox userCodeData)
             {
                 instructionSet = new Dictionary<int, string>();
                 int linesCount = userCodeData.Lines.Count();
@@ -130,8 +129,8 @@ namespace MIPS_Emulator
             
             public void calculateCycles(RichTextBox userCodeData, DataGridView pipRegGrid, DataGridView mipsRegGrid, TextBox pcTextBox)
             {
-                
-                getInstructionSet(userCodeData);
+
+                fillInstructionSet(userCodeData);
                 
                 if (!instructionSet.ContainsKey(PC) || instructionSet[PC] == "00000000000000000000000000000000")
                 {
@@ -143,23 +142,22 @@ namespace MIPS_Emulator
                         return;
                     }
                 }
-
+                
                 if (peaceOfString(instructionSet[PC], 0, 5) == "000100")
                 {
-                    PC_Decode = PC + 4;
-                    IR_Decode = instructionSet[PC];
-                    mipsTable[i, j] = PC.ToString(); //0
-                    mipsTable[++i, j] = PC_Decode.ToString(); //1
-                    mipsTable[++i, j] = IR_Decode; //2
+                    PcDecode = PC + 4;
+                    IrDecode = instructionSet[PC];
+                    mipsTable[xDim, yDim] = PC.ToString(); //0
+                    mipsTable[++xDim, yDim] = PcDecode.ToString(); //1
+                    mipsTable[++xDim, yDim] = IrDecode; //2
                     
-                    i = 0; j++;
+                    xDim = 0; yDim++;
                     displayPiplineRegisters(pipRegGrid, columnToDisplay++);
                     if (binaryToDecimal(peaceOfString(instructionSet[PC], 6, 10)) ==
                         binaryToDecimal(peaceOfString(instructionSet[PC], 11, 15)))
                     {
                         desiredJumpPC = PC +(binaryToDecimal(peaceOfString(instructionSet[PC], 16, 31)) * 4) + 4;
-                        desiredlevel = 1;
-                        //MessageBox.Show("desiredJumpPC: " + desiredJumpPC.ToString());
+                        desiredLevel = 1;
                     }
                     
                     PC += 4;
@@ -175,38 +173,32 @@ namespace MIPS_Emulator
                     memory();
 
                     desiredJumpPC = -1;
-                    desiredlevel = -1;
-                    //MessageBox.Show("in Desired");
+                    desiredLevel = -1;
                 }
                 else 
                 {
-                    if(desiredlevel == 1)
+                    if(desiredLevel == 1)
                     {
                         fetch();
                         decode();
                         excute();
-                        i = 0;
-                        j -= 2;
-                        //MessageBox.Show("FDE");
+                        xDim = 0;
+                        yDim -= 2;
                        
-                    }else if(desiredlevel == 2)
+                    }else if(desiredLevel == 2)
                     {
                         fetch();
                         decode();
-                        i = 0;
-                        j -= 1;
-                        //MessageBox.Show("FD");
+                        xDim = 0;
+                        yDim -= 1;
                     }
-                    else if(desiredlevel == 3)
+                    else if(desiredLevel == 3)
                     {
                         fetch();
-                        i = 0;
-                        //MessageBox.Show("F");
-                        
+                        xDim = 0;
                     }
                     else
                     {
-                        //MessageBox.Show("J to desired");
                         PC = desiredJumpPC;
                         fetch();
                         decode();
@@ -214,11 +206,11 @@ namespace MIPS_Emulator
                         memory();
                     }
 
-                    desiredlevel++;
+                    desiredLevel++;
                 }
                 
                 displayPiplineRegisters(pipRegGrid, columnToDisplay++);
-                Update(mipsRegGrid, pcTextBox);
+                update(mipsRegGrid, pcTextBox);
                 
                 PC += 4;
                 
@@ -262,14 +254,13 @@ namespace MIPS_Emulator
 
             public int ALU(int in1, int in2, int op)
             {
-                //MessageBox.Show(op.ToString());
                 if (op == 36) return in1 & in2;
                 else if (op == 37) return in1 | in2;
                 else if (op == 32) return in1 + in2;
                 else if (op == 34) return in1 - in2;
                 else return -999999999;
             }
-            public int mux_2x1(int in1, int in2, int sel)
+            public int mux2x1(int in1, int in2, int sel)
             {
                 if (sel == 0) return in1;
                 else if (sel == 1) return in2;
@@ -282,7 +273,7 @@ namespace MIPS_Emulator
                 else return -1;
             }
 
-            public int mux_4x1(int in1, int in2, int in3, int in4, int slctr)
+            public int mux4x1(int in1, int in2, int in3, int in4, int slctr)
             {
                 if (slctr == 0) return in1;
                 else if (slctr == 1) return in2;
@@ -296,7 +287,6 @@ namespace MIPS_Emulator
                 int[] returnData = new int[2];
                 returnData[0] = mipsReg[regIdx1];
                 returnData[1] = mipsReg[regIdx2];
-                //MessageBox.Show(returnData[0].ToString() + " " + returnData[1].ToString());
                 return returnData;
             }
             
@@ -323,7 +313,7 @@ namespace MIPS_Emulator
         {
             InitializeComponent();
             mipsObject = new MIPS();
-            mipsObject.Update(mipsRegGrid,pcTextBox);
+            mipsObject.update(mipsRegGrid,pcTextBox);
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -342,11 +332,11 @@ namespace MIPS_Emulator
             mipsRegGrid.Rows.Clear();
             pipRegGrid.Rows.Clear();
             pcTextBox.Text = "1000";
-            i = j = columnToDisplay = 0;
+            xDim = yDim = columnToDisplay = 0;
             gabCycles = 4;
-            desiredJumpPC = desiredlevel = -1;
-            mipsObject.getInstructionSet(userCodeData);
-            mipsObject.Update(mipsRegGrid, pcTextBox);
+            desiredJumpPC = desiredLevel = -1;
+            mipsObject.fillInstructionSet(userCodeData);
+            mipsObject.update(mipsRegGrid, pcTextBox);
             
         }
         
@@ -362,7 +352,6 @@ namespace MIPS_Emulator
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //mipsObject.getInstructionSet(userCodeData);
             mipsObject.calculateCycles(userCodeData,pipRegGrid,mipsRegGrid,pcTextBox);
         }
 
